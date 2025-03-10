@@ -5,6 +5,7 @@
 local require = require(script.Parent.loader).load(script)
 
 local SUBSTORE_KEY = "Money"
+local currencyDisplay = require(game.ReplicatedStorage.Shared.C_display)
 
 local Maid = require("Maid")
 local PlayerDataStoreService = require("PlayerDataStoreService")
@@ -27,7 +28,6 @@ function CurrencyService:Start()
 		self:_handlePlayer(brio:ToMaidAndValue())
 	end))
 end
-
 function CurrencyService:_handlePlayer(maid, player: Player)
 	maid:GivePromise(self._playerDataStoreService:PromiseDataStore(player)):Then(function(root)
 		local leaderstats = Instance.new("Folder")
@@ -49,6 +49,8 @@ function CurrencyService:_handlePlayer(maid, player: Player)
 			end)
 			maid:GiveTask(currencyStore:StoreOnValueChange(name, intValue))
 		end
+		currencyDisplay(player)
+
 	end)
 end
 
